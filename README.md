@@ -37,6 +37,10 @@ cms_client = DirectoryCMSClient(
     $ pip install pipenv
     $ pipenv --python 3.6 install --dev
 
+Dependency management is handled by [pipenv](https://github.com/pypa/pipenv). Follow their README.md for instructions on adding dependencies.
+
+Run `make compile_dependencies` when a new dependency is added. Failure to do so will result in `setup.py` not installing the new dependency when this package is installed.
+
 ## Test
 
     $ make test
