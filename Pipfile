@@ -1,0 +1,29 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+name = "pypi"
+verify_ssl = true
+
+
+[packages]
+
+directory-client-core = {ref = "v0.1.0", editable = true, git = "https://github.com/uktrade/directory-client-core.git"}
+sigauth = {ref = "v2.0.1", editable = true, git = "https://github.com/uktrade/directory-signature-auth.git"}
+django = "==1.11.5"
+djangorestframework = "==3.4.7"
+mohawk = "==0.3.4"
+monotonic = "==1.2"
+pytz = "==2017.2"
+requests = "==2.13.0"
+
+
+[dev-packages]
+
+pytest = "==3.0.2"
+pytest-cov = "==2.3.1"
+pytest-catchlog = "==1.2.2"
+pytest-sugar = "==0.8.0"
+"flake8" = "==3.0.4"
+requests-mock = "==1.1.0"
+freezegun = "==0.3.8"
+codecov = "==2.0.9"
