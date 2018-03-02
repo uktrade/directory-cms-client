@@ -7,8 +7,8 @@ verify_ssl = true
 
 [packages]
 
-directory-client-core = {ref = "v0.1.0", editable = true, git = "https://github.com/uktrade/directory-client-core.git"}
-sigauth = {ref = "v2.0.1", editable = true, git = "https://github.com/uktrade/directory-signature-auth.git"}
+directory-client-core = {ref = "v0.1.0", editable = false, git = "https://github.com/uktrade/directory-client-core.git"}
+sigauth = {ref = "v2.0.1", editable = false, git = "https://github.com/uktrade/directory-signature-auth.git"}
 django = "==1.11.5"
 djangorestframework = "==3.4.7"
 mohawk = "==0.3.4"

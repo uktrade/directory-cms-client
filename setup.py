@@ -2,14 +2,10 @@
 Export Directory API client
 """
 import ast
+import pip.download
+from pip.req import parse_requirements
 import re
 from setuptools import setup, find_packages
-
-from pipenv.project import Project
-from pipenv.utils import convert_deps_to_pip
-
-
-pfile = Project(chdir=False).parsed_pipfile
 
 
 def get_version():
@@ -19,6 +15,13 @@ def get_version():
         return str(ast.literal_eval(
             pattern.search(src.read().decode('utf-8')).group(1)
         ))
+
+
+def get_requirements():
+    return [str(r.req) for r in list(parse_requirements(
+        'requirements.txt',
+        session=pip.download.PipSession()
+    ))]
 
 
 setup(
@@ -31,5 +34,5 @@ setup(
     packages=find_packages(),
     long_description=open('README.md').read(),
     include_package_data=True,
-    install_requires=convert_deps_to_pip(pfile['packages'], r=False),
+    install_requires=get_requirements()
 )

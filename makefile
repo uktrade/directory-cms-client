@@ -17,6 +17,6 @@ test: flake8 pytest
 	$(CODECOV)
 
 compile_requirements:
-	pipenv lock
+	pipenv lock -r | sed 's/^\# //g' > requirements.txt
 
 .PHONY: build clean flake8 pytest test
