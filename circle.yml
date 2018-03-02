@@ -4,7 +4,9 @@ machine:
 
 dependencies:
   override:
-    - make test_requirements
+    - pip install pipenv
+    - pipenv install --dev
+
 test:
   override:
     - make test
