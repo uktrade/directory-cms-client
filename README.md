@@ -34,12 +34,7 @@ cms_client = DirectoryCMSClient(
 
     $ git clone https://github.com/uktrade/directory-cms-client
     $ cd directory_cms_client
-    $ pip install pipenv
-    $ pipenv --python 3.6 install --dev
-
-## Test
-
-    $ make test
+    $ make
 
 
 [code-climate-image]: https://codeclimate.com/github/uktrade/directory-cms-client/badges/issue_count.svg
