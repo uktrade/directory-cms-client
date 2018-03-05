@@ -1,2 +1,1 @@
--e git+https://github.com/uktrade/directory-signature-auth.git@v2.0.1#egg=sigauth
--e git+https://github.com/uktrade/directory-client-core.git@v0.1.0#egg=directory_client_core
+directory_client_core==0.1.0
