@@ -40,3 +40,19 @@ def test_cms_client_published():
         request = mock.request_history[0]
 
     assert request.qs == {}
+
+
+def test_cms_client_pages():
+    client = DirectoryCMSClient(
+        base_url='http://example.com',
+        api_key='debug',
+    )
+    with requests_mock.mock(case_sensitive=True) as mock:
+        mock.get('http://example.com/api/pages/')
+        client.list_pages('thing')
+        request = mock.request_history[0]
+
+    assert request.qs == {
+        'type': ['thing'],
+        'fields': ['*']
+    }

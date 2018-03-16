@@ -11,7 +11,7 @@ flake8:
 	flake8 . --exclude=.venv
 
 pytest:
-	pytest . --cov=. $(pytest_args)
+	pytest . --cov=. $(pytest_args) --capture=no
 
 CODECOV := \
 	if [ "$$CODECOV_REPO_TOKEN" != "" ]; then \
@@ -20,20 +20,6 @@ CODECOV := \
 
 test: flake8 pytest
 	$(CODECOV)
-
-integration_tests:
-	cd $(mktemp -d) && \
-	git clone https://github.com/uktrade/directory-tests && \
-	cd directory-tests && \
-	make docker_integration_tests
-
-compile_requirements:
-	python3 -m piptools compile requirements.in
-
-compile_test_requirements:
-	python3 -m piptools compile requirements_test.in
-
-compile_all_requirements: compile_requirements compile_test_requirements
 
 publish:
 	rm -rf build dist; \
