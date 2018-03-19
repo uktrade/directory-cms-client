@@ -16,8 +16,8 @@ class FindASupplierClient(BaseAPIClient):
             **kwargs
         )
 
-    def list_industries_landing_pages(self, *args, **kwargs):
-        return self.list_pages(
+    def get_industries_landing_page(self, *args, **kwargs):
+        return self.lookup_by_page_type(
             page_type=self.page_types['industries-landing-page'],
             *args,
             **kwargs
