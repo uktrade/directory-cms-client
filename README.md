@@ -10,13 +10,12 @@
 Client for the Directory Content Management read-only API.
 ---
 
-## Requirements
-
 ## Installation
 
 ```shell
-pip install -e git+https://git@github.com/uktrade/directory-cms-client.git@0.0.2#egg=directory-cms-client
+pip install directory-cms-client
 ```
+
 
 ## Usage
 
@@ -34,6 +33,11 @@ cms_client = DirectoryCMSClient(
 
     $ git clone https://github.com/uktrade/directory-cms-client
     $ cd directory-cms-client
+
+## Test
+
+    $ make test
+
 
 ## Publish to PyPI
 
