@@ -15,7 +15,7 @@ def test_list_industry_pages():
 
     assert request.qs == {
         'type': [FindASupplierClient.page_types['industry']],
-        'fields': ['hero_image,title,url'],
+        'fields': ['hero_image,hero_text,title,url'],
     }
 
 
@@ -31,7 +31,7 @@ def test_list_industry_pages_language_code():
 
     assert request.qs == {
         'type': [FindASupplierClient.page_types['industry']],
-        'fields': ['hero_image,title,url'],
+        'fields': ['hero_image,hero_text,title,url'],
         'lang': ['de']
     }
 
@@ -48,7 +48,7 @@ def test_list_industry_pages_draft_token():
 
     assert request.qs == {
         'type': [FindASupplierClient.page_types['industry']],
-        'fields': ['hero_image,title,url'],
+        'fields': ['hero_image,hero_text,title,url'],
         'draft_token': ['thing']
     }
 
@@ -81,6 +81,42 @@ def test_get_industries_landing_page_draft():
             FindASupplierClient.page_types['industries-landing-page']
         ))
         client.get_industries_landing_page(draft_token='draft-token')
+        request = mock.request_history[0]
+
+        assert request.qs == {
+            'draft_token': ['draft-token'],
+            'fields': ['*'],
+        }
+
+
+def test_get_landing_landing_page_language():
+    client = FindASupplierClient(
+        base_url='http://example.com',
+        api_key='debug',
+    )
+    with requests_mock.mock(case_sensitive=True) as mock:
+        mock.get('http://example.com/api/pages/lookup-by-type/{0}/'.format(
+            FindASupplierClient.page_types['landing-page']
+        ))
+        client.get_landing_page(language_code='de')
+        request = mock.request_history[0]
+
+        assert request.qs == {
+            'lang': ['de'],
+            'fields': ['*'],
+        }
+
+
+def test_get_landing_landing_page_draft():
+    client = FindASupplierClient(
+        base_url='http://example.com',
+        api_key='debug',
+    )
+    with requests_mock.mock(case_sensitive=True) as mock:
+        mock.get('http://example.com/api/pages/lookup-by-type/{0}/'.format(
+            FindASupplierClient.page_types['landing-page']
+        ))
+        client.get_landing_page(draft_token='draft-token')
         request = mock.request_history[0]
 
         assert request.qs == {
