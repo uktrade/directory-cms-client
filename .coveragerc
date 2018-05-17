@@ -1,2 +1,2 @@
 [run]
-omit = .venv/*,setup.py,*/version.py
+omit = .venv/*,setup.py,*/version.py,directory_cms_client/constants.py
