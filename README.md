@@ -2,6 +2,8 @@
 
 [![circle-ci-image]][circle-ci]
 [![codecov-image]][codecov]
+[![pypi-image]][pypi]
+[![snyk-image]][snyk]
 
 **Directory CMS client.**
 
@@ -56,3 +58,9 @@ Then run the following command:
 
 [codecov-image]: https://codecov.io/gh/uktrade/directory-cms-client/branch/master/graph/badge.svg
 [codecov]: https://codecov.io/gh/uktrade/directory-cms-client
+
+[pypi-image]: https://badge.fury.io/py/directory-cms-client.svg
+[pypi]: https://badge.fury.io/py/directory-cms-client
+
+[snyk-image]: https://snyk.io/test/github/uktrade/directory-cms-client/badge.svg
+[snyk]: https://snyk.io/test/github/uktrade/directory-cms-client
