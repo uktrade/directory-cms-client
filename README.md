@@ -1,9 +1,7 @@
 # directory-cms-client
 
-[![code-climate-image]][code-climate]
 [![circle-ci-image]][circle-ci]
 [![codecov-image]][codecov]
-[![gemnasium-image]][gemnasium]
 
 **Directory CMS client.**
 
@@ -53,15 +51,8 @@ Then run the following command:
 
     make publish
 
-
-[code-climate-image]: https://codeclimate.com/github/uktrade/directory-cms-client/badges/issue_count.svg
-[code-climate]: https://codeclimate.com/github/uktrade/directory-cms-client
-
 [circle-ci-image]: https://circleci.com/gh/uktrade/directory-cms-client/tree/master.svg?style=svg
 [circle-ci]: https://circleci.com/gh/uktrade/directory-cms-client/tree/master
 
 [codecov-image]: https://codecov.io/gh/uktrade/directory-cms-client/branch/master/graph/badge.svg
 [codecov]: https://codecov.io/gh/uktrade/directory-cms-client
-
-[gemnasium-image]: https://gemnasium.com/badges/github.com/uktrade/directory-cms-client.svg
-[gemnasium]: https://gemnasium.com/github.com/uktrade/directory-cms-client
