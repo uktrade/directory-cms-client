@@ -1,12 +1,17 @@
 import directory_client_core.base
 
+from django.conf import settings
 
-class DirectoryCMSClient(directory_client_core.base.BaseAPIClient):
+from directory_cms_client.version import __version__
+
+
+class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
     endpoints = {
         'page-by-type': '/api/pages/lookup-by-type/{page_type}/',
         'page-by-slug': '/api/pages/lookup-by-slug/{slug}/',
         'pages-by-type': '/api/pages/'
     }
+    version = __version__
 
     def get(self, language_code, draft_token, params=None, *args, **kwargs):
         params = params or {}
@@ -48,3 +53,11 @@ class DirectoryCMSClient(directory_client_core.base.BaseAPIClient):
             draft_token=draft_token,
             language_code=language_code
         )
+
+
+cms_api_client = DirectoryCMSClient(
+    base_url=settings.DIRECTORY_CMS_API_CLIENT_BASE_URL,
+    api_key=settings.DIRECTORY_CMS_API_CLIENT_API_KEY,
+    sender_id=settings.DIRECTORY_CMS_API_CLIENT_SENDER_ID,
+    timeout=settings.DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT,
+)

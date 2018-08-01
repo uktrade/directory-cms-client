@@ -12,32 +12,33 @@ Client for the Directory Content Management read-only API.
 
 ## Installation
 
-```shell
-pip install directory-cms-client
+```sh
+    $ pip install directory-cms-client
 ```
 
+The api client expects the following settings:
 
-## Usage
+| Setting                                  | Notes                                                       |
+| ---------------------------------------- | ----------------------------------------------------------- |
+| DIRECTORY_CMS_API_CLIENT_BASE_URL        |                                                             |
+| DIRECTORY_CMS_API_CLIENT_API_KEY         | Unique to client. Retrieved during the on-boarding process. |
+| DIRECTORY_CMS_API_CLIENT_SENDER_ID       | Unique to client. Retrieved during the on-boarding process. |
+| DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT |                                                             |
 
-```python
-from directory_cms_client import DirectoryCMSClient
+Once that is done the API client can be used:
 
-cms_client = DirectoryCMSClient(
-    base_url="https://directory-cms-dev.herokuapp.com",
-    api_key=api_key
-)
+```py
+from directory_api_client.client import cms_api_client
 ```
-
 
 ## Development
 
-    $ git clone https://github.com/uktrade/directory-cms-client
-    $ cd directory-cms-client
-
-## Test
-
-    $ make test
-
+```shell
+$ git clone https://github.com/uktrade/directory-cms-client
+$ cd directory-cms-client
+$ [create virtual environment and activate]
+$ pip install -r requirements_test.txt
+```
 
 ## Publish to PyPI
 
@@ -48,10 +49,10 @@ The package should be published to PyPI on merge to master. If you need to do it
 | DIRECTORY_PYPI_USERNAME     |
 | DIRECTORY_PYPI_PASSWORD     |
 
-
 Then run the following command:
-
+```sh
     make publish
+```
 
 [circle-ci-image]: https://circleci.com/gh/uktrade/directory-cms-client/tree/master.svg?style=svg
 [circle-ci]: https://circleci.com/gh/uktrade/directory-cms-client/tree/master
