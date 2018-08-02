@@ -1,9 +1,7 @@
 """
-Export Directory API client
+Directory CMS client
 """
 import ast
-import pip.download
-from pip.req import parse_requirements
 import re
 from setuptools import setup, find_packages
 
@@ -17,13 +15,6 @@ def get_version():
         ))
 
 
-def get_requirements():
-    return [str(r.req) for r in list(parse_requirements(
-        'requirements.txt',
-        session=pip.download.PipSession()
-    ))]
-
-
 setup(
     name='directory_cms_client',
     version=get_version(),
@@ -34,5 +25,7 @@ setup(
     packages=find_packages(),
     long_description=open('README.md').read(),
     include_package_data=True,
-    install_requires=get_requirements()
+    install_requires=[
+        'directory_client_core<5.0.0'
+    ]
 )
