@@ -114,6 +114,24 @@ def test_cms_client_lookup_by_slug_draft():
         }
 
 
+def test_cms_client_lookup_by_slug_app_name():
+    client = DirectoryCMSClient(
+        base_url='http://example.com',
+        api_key='debug',
+        sender_id='test-sender',
+        timeout=5,
+    )
+    with requests_mock.mock(case_sensitive=True) as mock:
+        mock.get('http://example.com/api/pages/lookup-by-slug/thing/')
+        client.lookup_by_slug('thing', app_name='foo')
+        request = mock.request_history[0]
+
+        assert request.qs == {
+            'app_name': ['foo'],
+            'fields': ['*'],
+        }
+
+
 def test_timeout():
     client = DirectoryCMSClient(
         base_url='http://example.com',

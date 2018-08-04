@@ -22,7 +22,11 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
         return super().get(params=params, *args, **kwargs)
 
     def lookup_by_page_type(
-        self, page_type, fields=None, draft_token=None, language_code=None
+            self,
+            page_type,
+            fields=None,
+            draft_token=None,
+            language_code=None
     ):
         return self.get(
             url=self.endpoints['page-by-type'].format(page_type=page_type),
@@ -32,11 +36,19 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
         )
 
     def lookup_by_slug(
-        self, slug, fields=None, draft_token=None, language_code=None
+            self,
+            slug,
+            fields=None,
+            draft_token=None,
+            language_code=None,
+            app_name=None
     ):
+        params = {'fields': fields or ['*']}
+        if app_name:
+            params['app_name'] = app_name
         return self.get(
             url=self.endpoints['page-by-slug'].format(slug=slug),
-            params={'fields': fields or ['*']},
+            params=params,
             draft_token=draft_token,
             language_code=language_code
         )
@@ -51,7 +63,7 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
                 'type': page_type,
             },
             draft_token=draft_token,
-            language_code=language_code
+            language_code=language_code,
         )
 
 
