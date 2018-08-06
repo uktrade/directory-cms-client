@@ -123,7 +123,7 @@ def test_cms_client_lookup_by_slug_app_name():
     )
     with requests_mock.mock(case_sensitive=True) as mock:
         mock.get('http://example.com/api/pages/lookup-by-slug/thing/')
-        client.lookup_by_slug('thing', app_name='foo')
+        client.lookup_by_slug('thing', service_name='foo')
         request = mock.request_history[0]
 
         assert request.qs == {

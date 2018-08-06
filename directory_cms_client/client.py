@@ -41,11 +41,11 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
             fields=None,
             draft_token=None,
             language_code=None,
-            app_name=None
+            service_name=None
     ):
         params = {'fields': fields or ['*']}
-        if app_name:
-            params['app_name'] = app_name
+        if service_name:
+            params['service_name'] = service_name
         return self.get(
             url=self.endpoints['page-by-slug'].format(slug=slug),
             params=params,
