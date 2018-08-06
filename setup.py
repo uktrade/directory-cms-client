@@ -26,6 +26,6 @@ setup(
     long_description=open('README.md').read(),
     include_package_data=True,
     install_requires=[
-        'directory_client_core<5.0.0'
+        'directory_client_core>=4.0.0<5.0.0'
     ]
 )
