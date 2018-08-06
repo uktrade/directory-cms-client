@@ -13,6 +13,10 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
     }
     version = __version__
 
+    def __init__(self, base_url, api_key, sender_id, timeout, service_name):
+        super().__init__(base_url, api_key, sender_id, timeout)
+        self.service_name = service_name
+
     def get(self, language_code, draft_token, params=None, *args, **kwargs):
         params = params or {}
         if language_code:
@@ -27,11 +31,11 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
             fields=None,
             draft_token=None,
             language_code=None,
-            service_name=None
     ):
-        params = {'fields': fields or ['*']}
-        if service_name:
-            params['service_name'] = service_name
+        params = {
+            'fields': fields or ['*'],
+            'service_name': self.service_name
+        }
         return self.get(
             url=self.endpoints['page-by-slug'].format(slug=slug),
             params=params,
@@ -58,4 +62,5 @@ cms_api_client = DirectoryCMSClient(
     api_key=settings.DIRECTORY_CMS_API_CLIENT_API_KEY,
     sender_id=settings.DIRECTORY_CMS_API_CLIENT_SENDER_ID,
     timeout=settings.DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT,
+    service_name=settings.DIRECTORY_CMS_API_CLIENT_SERVICE_NAME
 )
