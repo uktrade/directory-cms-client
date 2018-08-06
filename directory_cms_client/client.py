@@ -21,20 +21,6 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
             params['draft_token'] = draft_token
         return super().get(params=params, *args, **kwargs)
 
-    def lookup_by_page_type(
-            self,
-            page_type,
-            fields=None,
-            draft_token=None,
-            language_code=None
-    ):
-        return self.get(
-            url=self.endpoints['page-by-type'].format(page_type=page_type),
-            params={'fields': fields or ['*']},
-            draft_token=draft_token,
-            language_code=language_code
-        )
-
     def lookup_by_slug(
             self,
             slug,
