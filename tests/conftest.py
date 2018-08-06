@@ -6,4 +6,5 @@ def pytest_configure():
         DIRECTORY_CMS_API_CLIENT_API_KEY='test-api-key',
         DIRECTORY_CMS_API_CLIENT_SENDER_ID='test-sender',
         DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT=5,
+        DIRECTORY_CMS_API_CLIENT_SERVICE_NAME='foo'
     )
