@@ -24,6 +24,7 @@ The api client expects the following settings:
 | DIRECTORY_CMS_API_CLIENT_API_KEY         | Unique to client. Retrieved during the on-boarding process. |
 | DIRECTORY_CMS_API_CLIENT_SENDER_ID       | Unique to client. Retrieved during the on-boarding process. |
 | DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT |                                                             |
+| DIRECTORY_CMS_API_CLIENT_SERVICE_NAME    | Unique to client, can be hardcoded.
 
 Once that is done the API client can be used:
 
