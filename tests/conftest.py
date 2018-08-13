@@ -6,5 +6,11 @@ def pytest_configure():
         DIRECTORY_CMS_API_CLIENT_API_KEY='test-api-key',
         DIRECTORY_CMS_API_CLIENT_SENDER_ID='test-sender',
         DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT=5,
-        DIRECTORY_CMS_API_CLIENT_SERVICE_NAME='foo'
+        DIRECTORY_CMS_API_CLIENT_SERVICE_NAME='foo',
+        CACHES={
+            'cms_fallback': {
+                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+                'LOCATION': 'unique-snowflake',
+            }
+        }
     )

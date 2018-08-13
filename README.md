@@ -26,6 +26,14 @@ The api client expects the following settings:
 | DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT |                                                             |
 | DIRECTORY_CMS_API_CLIENT_SERVICE_NAME    | Unique to client, can be hardcoded.
 
+And also specify a cache with name `cms_fallback`:
+
+```
+CACHES = {
+    'cms_fallback': ...
+}
+```
+
 Once that is done the API client can be used:
 
 ```py
