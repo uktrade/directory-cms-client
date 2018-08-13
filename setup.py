@@ -26,6 +26,7 @@ setup(
     long_description=open('README.md').read(),
     include_package_data=True,
     install_requires=[
-        'directory_client_core>=4.0.0<5.0.0'
+        'directory_client_core>=4.0.0<5.0.0',
+        ' w3lib>=1.19.0<2.0.0',
     ]
 )
