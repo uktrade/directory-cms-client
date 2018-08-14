@@ -17,9 +17,10 @@ MESSAGE_CACHE_MISS = 'CMS fallback cache miss. Cannot display any content.'
 
 class AbstractCMSResponse(abc.ABC):
 
-    def __init__(self, content, status_code):
+    def __init__(self, content, status_code, raw_response=None):
         self.content = content
         self.status_code = status_code
+        self.raw_response = raw_response
 
     def raise_for_status(self):
         if not 200 <= self.status_code < 300:
@@ -33,6 +34,7 @@ class AbstractCMSResponse(abc.ABC):
         return cls(
             content=response.content,
             status_code=response.status_code,
+            raw_response=response,
         )
 
 
