@@ -49,6 +49,12 @@ class CMSFailureResponse(AbstractCMSResponse):
 
 
 def fallback(cache):
+
+    def get_cache_response(cache_key):
+        content = cache.get(cache_key)
+        if content:
+            return CMSCacheResponse(content=content, status_code=200)
+
     def closure(func):
         @wraps(func)
         def wrapper(class_instance, url, params={}, *args, **kwargs):
@@ -57,30 +63,27 @@ def fallback(cache):
                 cms_response = func(
                     class_instance, url=url, params=params, *args, **kwargs
                 )
-                cms_response.raise_for_status()
             except RequestException:
-                content = cache.get(cache_key)
-                if content:
-                    response = CMSCacheResponse(
-                        content=content, status_code=200
-                    )
-                    logger.warn(
-                        MESSAGE_CACHE_HIT,
-                        extra={
-                            'status_code': cms_response.status_code, 'url': url
-                        }
-                    )
-                else:
-                    response = CMSFailureResponse.from_response(cms_response)
-                    logger.exception(
-                        MESSAGE_CACHE_MISS,
-                        extra={
-                            'status_code': cms_response.status_code, 'url': url
-                        }
-                    )
+                response = get_cache_response(cache_key)
+                logger.warn(MESSAGE_CACHE_HIT, extra={'url': url})
+                if not response:
+                    raise
             else:
-                cache.set(cache_key, cms_response.content)
-                response = CMSLiveResponse.from_response(cms_response)
+                if cms_response.ok:
+                    cache.set(cache_key, cms_response.content)
+                    response = CMSLiveResponse.from_response(cms_response)
+                else:
+                    log_context = {
+                        'status_code': cms_response.status_code, 'url': url
+                    }
+                    response = get_cache_response(cache_key)
+                    if response:
+                        logger.warn(MESSAGE_CACHE_HIT, extra=log_context)
+                    else:
+                        logger.exception(MESSAGE_CACHE_MISS, extra=log_context)
+                        response = CMSFailureResponse.from_response(
+                            cms_response
+                        )
             return response
         return wrapper
     return closure
