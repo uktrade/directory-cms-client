@@ -26,7 +26,7 @@ class AbstractCMSResponse(abc.ABC):
             raise HTTPError(self.content)
 
     def json(self):
-        return json.loads(self.content)
+        return json.loads(self.content.decode('utf-8'))
 
     @classmethod
     def from_response(cls, response):
