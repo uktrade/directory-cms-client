@@ -4,6 +4,7 @@ from unittest.mock import patch
 import pytest
 import requests_mock
 import requests.exceptions
+from requests import Response
 
 from django.core.cache import caches
 
@@ -124,10 +125,12 @@ def test_bad_resonse_cache_hit(default_client, caplog):
     assert response_one.status_code == 200
     assert response_one.content == expected_data
     assert isinstance(response_one, helpers.CMSLiveResponse)
+    assert isinstance(response_one.raw_response, Response)
 
     assert response_two.status_code == 200
     assert response_two.content == expected_data
     assert isinstance(response_two, helpers.CMSCacheResponse)
+    assert response_two.raw_response is None
 
     log = caplog.records[-1]
     assert log.levelname == 'ERROR'
@@ -146,6 +149,7 @@ def test_bad_response_cache_miss(default_client, caplog):
 
     assert response.status_code == 400
     assert isinstance(response, helpers.CMSFailureResponse)
+    assert isinstance(response.raw_response, Response)
 
     log = caplog.records[-1]
     assert log.levelname == 'ERROR'
