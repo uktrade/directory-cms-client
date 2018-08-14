@@ -13,7 +13,7 @@ from directory_cms_client import helpers
 ])
 def test_cms_response_interoparability(response_class):
     response = response_class(
-        content=json.dumps({'key': 'value'}),
+        content=bytes(json.dumps({'key': 'value'}), 'utf8'),
         status_code=400,
     )
 

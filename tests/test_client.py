@@ -1,7 +1,9 @@
 import json
+from unittest.mock import patch
 
 import pytest
 import requests_mock
+import requests.exceptions
 
 from django.core.cache import caches
 
@@ -150,6 +152,41 @@ def test_bad_response_cache_miss(default_client, caplog):
     assert log.msg == helpers.MESSAGE_CACHE_MISS
     assert log.status_code == 400
     assert log.url == path
+
+
+def test_connection_error_cache_hit(default_client, caplog):
+    path = '/api/pages/lookup-by-slug/thing/'
+    expected_data = bytes(json.dumps({'key': 'value'}), 'utf8')
+    url = 'http://example.com' + path
+
+    with requests_mock.mock() as mock:
+        mock.get(url, content=expected_data)
+        response_one = default_client.lookup_by_slug('thing')
+
+    with patch('directory_client_core.base.AbstractAPIClient.get') as mock_get:
+        mock_get.side_effect = requests.exceptions.ConnectionError()
+        response_two = default_client.lookup_by_slug('thing')
+
+    assert response_one.status_code == 200
+    assert response_one.content == expected_data
+    assert isinstance(response_one, helpers.CMSLiveResponse)
+
+    assert response_two.status_code == 200
+    assert response_two.content == expected_data
+    assert isinstance(response_two, helpers.CMSCacheResponse)
+
+    log = caplog.records[-1]
+    assert log.levelname == 'WARNING'
+    assert log.msg == helpers.MESSAGE_CACHE_HIT
+    assert log.url == path
+
+
+def test_connection_error_cache_miss(default_client):
+    with patch('directory_client_core.base.AbstractAPIClient.get') as mock_get:
+        mock_get.side_effect = requests.exceptions.ConnectionError()
+
+        with pytest.raises(requests.exceptions.ConnectionError):
+            default_client.lookup_by_slug('thing')
 
 
 def test_cache_querystrings(default_client, cms_cache):
