@@ -130,7 +130,7 @@ def test_bad_resonse_cache_hit(default_client, caplog):
     assert isinstance(response_two, helpers.CMSCacheResponse)
 
     log = caplog.records[-1]
-    assert log.levelname == 'WARNING'
+    assert log.levelname == 'ERROR'
     assert log.msg == helpers.MESSAGE_CACHE_HIT
     assert log.status_code == 400
     assert log.url == path
@@ -176,7 +176,7 @@ def test_connection_error_cache_hit(default_client, caplog):
     assert isinstance(response_two, helpers.CMSCacheResponse)
 
     log = caplog.records[-1]
-    assert log.levelname == 'WARNING'
+    assert log.levelname == 'ERROR'
     assert log.msg == helpers.MESSAGE_CACHE_HIT
     assert log.url == path
 

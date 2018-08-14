@@ -49,6 +49,11 @@ class CMSFailureResponse(AbstractCMSResponse):
 
 
 def fallback(cache):
+    """
+    Caches CMS content retrieved by the client, thus allowing the cached
+    content to be used later if the live CMS content cannot be retrieved.
+
+    """
 
     def get_cache_response(cache_key):
         content = cache.get(cache_key)
@@ -57,33 +62,37 @@ def fallback(cache):
 
     def closure(func):
         @wraps(func)
-        def wrapper(class_instance, url, params={}, *args, **kwargs):
+        def wrapper(client, url, params={}, *args, **kwargs):
             cache_key = canonicalize_url(url + '?' + urlencode(params))
             try:
                 cms_response = func(
-                    class_instance, url=url, params=params, *args, **kwargs
+                    client, url=url, params=params, *args, **kwargs
                 )
             except RequestException:
+                # Failed to create the request e.g., the CMS is down, perhaps a
+                # timeout occurred, or even connection closed by CMS, etc.
                 response = get_cache_response(cache_key)
-                logger.warn(MESSAGE_CACHE_HIT, extra={'url': url})
+                logger.error(MESSAGE_CACHE_HIT, extra={'url': url})
                 if not response:
                     raise
             else:
-                if cms_response.ok:
-                    cache.set(cache_key, cms_response.content)
-                    response = CMSLiveResponse.from_response(cms_response)
-                else:
+                if not cms_response.ok:
+                    # Successfully requested the content, but the response is
+                    # not OK (e.g., 500, 403, etc)
                     log_context = {
                         'status_code': cms_response.status_code, 'url': url
                     }
                     response = get_cache_response(cache_key)
                     if response:
-                        logger.warn(MESSAGE_CACHE_HIT, extra=log_context)
+                        logger.error(MESSAGE_CACHE_HIT, extra=log_context)
                     else:
                         logger.exception(MESSAGE_CACHE_MISS, extra=log_context)
                         response = CMSFailureResponse.from_response(
                             cms_response
                         )
+                else:
+                    cache.set(cache_key, cms_response.content)
+                    response = CMSLiveResponse.from_response(cms_response)
             return response
         return wrapper
     return closure
