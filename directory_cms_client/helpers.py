@@ -74,8 +74,9 @@ def fallback(cache):
                 # Failed to create the request e.g., the CMS is down, perhaps a
                 # timeout occurred, or even connection closed by CMS, etc.
                 response = get_cache_response(cache_key)
-                logger.error(MESSAGE_CACHE_HIT, extra={'url': url})
-                if not response:
+                if response:
+                    logger.error(MESSAGE_CACHE_HIT, extra={'url': url})
+                else:
                     raise
             else:
                 if not cms_response.ok:
