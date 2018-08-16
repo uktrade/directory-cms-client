@@ -185,12 +185,14 @@ def test_connection_error_cache_hit(default_client, caplog):
     assert log.url == path
 
 
-def test_connection_error_cache_miss(default_client):
+def test_connection_error_cache_miss(default_client, caplog):
     with patch('directory_client_core.base.AbstractAPIClient.get') as mock_get:
         mock_get.side_effect = requests.exceptions.ConnectionError()
 
         with pytest.raises(requests.exceptions.ConnectionError):
             default_client.lookup_by_slug('thing')
+
+    assert len(caplog.records) == 0
 
 
 def test_cache_querystrings(default_client, cms_cache):
