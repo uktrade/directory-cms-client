@@ -4,6 +4,8 @@ import json
 import logging
 from urllib.parse import urlencode
 
+from django.conf import settings
+
 from requests.exceptions import HTTPError, RequestException
 from w3lib.url import canonicalize_url
 
@@ -94,7 +96,11 @@ def fallback(cache):
                             cms_response
                         )
                 else:
-                    cache.set(cache_key, cms_response.content)
+                    cache.set(
+                        cache_key,
+                        cms_response.content,
+                        settings.DIRECTORY_CMS_API_CLIENT_CACHE_EXPIRE_SECONDS
+                    )
                     response = CMSLiveResponse.from_response(cms_response)
             return response
         return wrapper

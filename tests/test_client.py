@@ -2,6 +2,7 @@ import json
 from unittest.mock import patch
 
 import pytest
+from freezegun import freeze_time
 import requests_mock
 import requests.exceptions
 from requests import Response
@@ -107,6 +108,24 @@ def test_good_response_cached(default_client, cms_cache):
 
     cache_key = path + '?fields=%5B%27%2A%27%5D&service_name=foo'
     assert cms_cache.get(cache_key) == expected_data
+
+
+@freeze_time('2012-01-14')
+def test_good_response_cache_timeout(default_client, cms_cache, settings):
+    settings.DIRECTORY_CMS_API_CLIENT_CACHE_EXPIRE_SECONDS = 100
+    expected_data = bytes(json.dumps({'key': 'value'}), 'utf8')
+    path = '/api/pages/lookup-by-slug/thing/'
+
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com' + path, content=expected_data)
+        default_client.lookup_by_slug('thing')
+
+    cache_key = path + '?fields=%5B%27%2A%27%5D&service_name=foo'
+
+    key = cms_cache.make_key(cache_key)
+    cms_cache.validate_key(key)
+
+    assert cms_cache._expire_info.get(key) == 1326499300.0
 
 
 def test_bad_resonse_cache_hit(default_client, caplog):
