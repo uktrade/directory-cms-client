@@ -18,13 +18,14 @@ Client for the Directory Content Management read-only API.
 
 The api client expects the following settings:
 
-| Setting                                  | Notes                                                       |
-| ---------------------------------------- | ----------------------------------------------------------- |
-| DIRECTORY_CMS_API_CLIENT_BASE_URL        |                                                             |
-| DIRECTORY_CMS_API_CLIENT_API_KEY         | Unique to client. Retrieved during the on-boarding process. |
-| DIRECTORY_CMS_API_CLIENT_SENDER_ID       | Unique to client. Retrieved during the on-boarding process. |
-| DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT |                                                             |
-| DIRECTORY_CMS_API_CLIENT_SERVICE_NAME    | Unique to client, can be hardcoded.
+| Setting                                       | Notes                                                       |
+| --------------------------------------------- | ----------------------------------------------------------- |
+| DIRECTORY_CMS_API_CLIENT_BASE_URL             |                                                             |
+| DIRECTORY_CMS_API_CLIENT_API_KEY              | Unique to client. Retrieved during the on-boarding process. |
+| DIRECTORY_CMS_API_CLIENT_SENDER_ID            | Unique to client. Retrieved during the on-boarding process. |
+| DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT      |                                                             |
+| DIRECTORY_CMS_API_CLIENT_SERVICE_NAME         | Unique to client, can be hardcoded.                         |
+| DIRECTORY_CMS_API_CLIENT_CACHE_EXPIRE_SECONDS | Duration to store the retrieved content in the cache        |
 
 And also specify a cache with name `cms_fallback`:
 

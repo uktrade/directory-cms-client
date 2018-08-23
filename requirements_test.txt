@@ -9,3 +9,5 @@ freezegun==0.3.8
 codecov==2.0.9
 twine==1.9.1
 wheel==0.30.0
+freezegun==0.3.8
+pytest-django==3.0.0
