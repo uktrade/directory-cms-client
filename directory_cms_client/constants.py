@@ -1,6 +1,9 @@
 EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG = 'terms-and-conditions'
 EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG = 'privacy-and-cookies'
 EXPORT_READINESS_GET_FINANCE_SLUG = 'get-finance'
+EXPORT_READINESS_HIGH_POTENTIAL_OPPORTUNITY_FORM_SLUG = (
+    'high-potential-opportunity-form'
+)
 
 FIND_A_SUPPLIER_INDUSTRY_LANDING_SLUG = 'industries-landing-page'
 FIND_A_SUPPLIER_LANDING_SLUG = 'landing-page'
