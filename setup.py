@@ -24,6 +24,7 @@ setup(
     description='Python API client for Directory CMS.',
     packages=find_packages(),
     long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     include_package_data=True,
     install_requires=[
         'directory_client_core>=4.0.0<5.0.0',
