@@ -4,7 +4,9 @@ EXPORT_READINESS_GET_FINANCE_SLUG = 'get-finance'
 EXPORT_READINESS_HIGH_POTENTIAL_OPPORTUNITY_FORM_SLUG = (
     'high-potential-opportunity-form'
 )
-
+EXPORT_READINESS_HIGH_POTENTIAL_OPPORTUNITY_FORM_SUCCESS_SLUG = (
+    'high-potential-opportunity-submit-success'
+ )
 FIND_A_SUPPLIER_INDUSTRY_LANDING_SLUG = 'industries-landing-page'
 FIND_A_SUPPLIER_LANDING_SLUG = 'landing-page'
 FIND_A_SUPPLIER_INDUSTRY_CONTACT_SLUG = 'industry-contact'
