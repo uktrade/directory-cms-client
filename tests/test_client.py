@@ -86,6 +86,44 @@ def test_cms_client_lookup_by_slug(default_client):
         }
 
 
+def test_cms_client_lookup_by_full_path_language(default_client):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/lookup-by-full-path/')
+        default_client.lookup_by_full_path('thing', language_code='de')
+        request = mock.request_history[0]
+
+        assert request.qs == {
+            'lang': ['de'],
+            'fields': ['*'],
+            'full_path': ['thing']
+        }
+
+
+def test_cms_client_lookup_by_full_path_draft(default_client):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/lookup-by-full-path/')
+        default_client.lookup_by_full_path('thing', draft_token='draft-token')
+        request = mock.request_history[0]
+
+        assert request.qs == {
+            'draft_token': ['draft-token'],
+            'fields': ['*'],
+            'full_path': ['thing']
+        }
+
+
+def test_cms_client_lookup_by_full_path(default_client):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/lookup-by-full-path/')
+        default_client.lookup_by_full_path('thing')
+        request = mock.request_history[0]
+
+        assert request.qs == {
+            'fields': ['*'],
+            'full_path': ['thing']
+        }
+
+
 def test_timeout(default_client):
     assert default_client.timeout == 5
 
