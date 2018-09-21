@@ -7,12 +7,16 @@ from directory_cms_client.version import __version__
 from directory_cms_client import helpers
 
 
-def build_params(language_code=None, draft_token=None, fields=None):
+def build_params(
+    full_path=None, language_code=None, draft_token=None, fields=None
+):
     params = {'fields': fields or ['*']}
     if language_code:
         params['lang'] = language_code
     if draft_token:
         params['draft_token'] = draft_token
+    if full_path:
+        params['full_path'] = full_path
     return params
 
 
@@ -20,6 +24,7 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
     endpoints = {
         'page-by-type': '/api/pages/lookup-by-type/{page_type}/',
         'page-by-slug': '/api/pages/lookup-by-slug/{slug}/',
+        'page-by-full-path': '/api/pages/lookup-by-full-path/',
         'pages-by-type': '/api/pages/'
     }
     version = __version__
@@ -47,6 +52,24 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
             params={
                 **base_params,
                 'service_name': self.service_name
+            },
+        )
+
+    def lookup_by_full_path(
+        self,
+        full_path,
+        fields=None,
+        draft_token=None,
+        language_code=None,
+    ):
+        base_params = build_params(
+            fields=fields, language_code=language_code,
+            draft_token=draft_token, full_path=full_path
+        )
+        return self.get(
+            url=self.endpoints['page-by-full-path'],
+            params={
+                **base_params,
             },
         )
 
