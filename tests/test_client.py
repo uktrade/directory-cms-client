@@ -268,3 +268,9 @@ def test_cache_querystrings(default_client, cms_cache):
         path + '?draft_token=2&fields=%5B%27%2A%27%5D&lang=de&service_name=foo'
     )
     assert cms_cache.get(cache_key) == expected_data
+
+
+def test_ping(default_client):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/healthcheck/ping/')
+        default_client.ping()
