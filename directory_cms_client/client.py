@@ -22,6 +22,7 @@ def build_params(
 
 class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
     endpoints = {
+        'ping': 'healthcheck/ping/',
         'page-by-type': '/api/pages/lookup-by-type/{page_type}/',
         'page-by-slug': '/api/pages/lookup-by-slug/{slug}/',
         'page-by-full-path': '/api/pages/lookup-by-full-path/',
@@ -32,6 +33,9 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
     def __init__(self, base_url, api_key, sender_id, timeout, service_name,):
         super().__init__(base_url, api_key, sender_id, timeout)
         self.service_name = service_name
+
+    def ping(self):
+        return self.get(url=self.endpoints['ping'])
 
     @helpers.fallback(cache=caches['cms_fallback'])
     def get(self, *args, **kwargs):
