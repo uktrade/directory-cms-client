@@ -5,6 +5,7 @@ import logging
 from urllib.parse import urlencode
 
 from django.conf import settings
+from django.shortcuts import Http404
 
 from requests.exceptions import HTTPError, RequestException
 from w3lib.url import canonicalize_url
@@ -15,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 MESSAGE_CACHE_HIT = 'CMS fallback cache hit. Displaying cached content.'
 MESSAGE_CACHE_MISS = 'CMS fallback cache miss. Cannot display any content.'
+MESSAGE_NOT_FOUND = 'Page not found in CMS'
 
 
 class AbstractCMSResponse(abc.ABC):
@@ -81,12 +83,15 @@ def fallback(cache):
                 else:
                     raise
             else:
-                if not cms_response.ok:
+                log_context = {
+                    'status_code': cms_response.status_code, 'url': url
+                }
+                if cms_response.status_code == 404:
+                    logger.error(MESSAGE_NOT_FOUND, extra=log_context)
+                    return CMSLiveResponse.from_response(cms_response)
+                elif not cms_response.ok:
                     # Successfully requested the content, but the response is
                     # not OK (e.g., 500, 403, etc)
-                    log_context = {
-                        'status_code': cms_response.status_code, 'url': url
-                    }
                     response = get_cache_response(cache_key)
                     if response:
                         logger.error(MESSAGE_CACHE_HIT, extra=log_context)
@@ -105,3 +110,17 @@ def fallback(cache):
             return response
         return wrapper
     return closure
+
+
+def handle_cms_response(response):
+    if response.status_code == 404:
+        raise Http404()
+    response.raise_for_status()
+    return response.json()
+
+
+def handle_cms_response_allow_404(response):
+    if response.status_code == 404:
+        return {}
+    response.raise_for_status()
+    return response.json()
