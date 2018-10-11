@@ -215,6 +215,25 @@ def test_bad_response_cache_miss(default_client, caplog):
     assert log.url == path
 
 
+def test_bad_response_404(default_client, caplog):
+    path = '/api/pages/lookup-by-slug/thing/'
+    url = 'http://example.com' + path
+
+    with requests_mock.mock() as mock:
+        mock.get(url, status_code=404)
+        response = default_client.lookup_by_slug('thing')
+
+    assert response.status_code == 404
+    assert isinstance(response, helpers.CMSLiveResponse)
+    assert isinstance(response.raw_response, Response)
+
+    log = caplog.records[-1]
+    assert log.levelname == 'ERROR'
+    assert log.msg == helpers.MESSAGE_NOT_FOUND
+    assert log.status_code == 404
+    assert log.url == path
+
+
 def test_connection_error_cache_hit(default_client, caplog):
     path = '/api/pages/lookup-by-slug/thing/'
     expected_data = bytes(json.dumps({'key': 'value'}), 'utf8')
