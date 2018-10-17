@@ -52,16 +52,11 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
         draft_token=None,
         language_code=None,
     ):
-        base_params = build_params(
+        params = build_params(
             tag_slug=tag_slug, fields=fields,
             language_code=language_code, draft_token=draft_token
         )
-        return self.get(
-            url=self.endpoints['page-by-tag'].format(tag_slug=tag_slug),
-            params={
-                **base_params,
-            },
-        )
+        return self.get(url=self.endpoints['page-by-tag'], params=params)
 
     def lookup_by_slug(
         self,
