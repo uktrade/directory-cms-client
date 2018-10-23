@@ -8,8 +8,10 @@ from directory_cms_client import helpers
 
 
 def build_params(
-    tag_slug=None, full_path=None,
-    language_code=None, draft_token=None, fields=None
+        full_path=None,
+        language_code=None,
+        draft_token=None,
+        fields=None
 ):
     params = {'fields': fields or ['*']}
     if language_code:
@@ -18,8 +20,6 @@ def build_params(
         params['draft_token'] = draft_token
     if full_path:
         params['full_path'] = full_path
-    if tag_slug:
-        params['tag_slug'] = tag_slug
     return params
 
 
@@ -28,7 +28,7 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
         'ping': 'healthcheck/ping/',
         'page-by-type': '/api/pages/lookup-by-type/{page_type}/',
         'page-by-slug': '/api/pages/lookup-by-slug/{slug}/',
-        'page-by-tag': '/api/pages/lookup-by-tag/',
+        'page-by-tag': '/api/pages/lookup-by-tag/{slug}',
         'page-by-full-path': '/api/pages/lookup-by-full-path/',
         'pages-by-type': '/api/pages/'
     }
@@ -47,16 +47,16 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
 
     def lookup_by_tag(
         self,
-        tag_slug,
+        slug,
         fields=None,
         draft_token=None,
         language_code=None,
     ):
-        params = build_params(
-            tag_slug=tag_slug, fields=fields,
-            language_code=language_code, draft_token=draft_token
-        )
-        return self.get(url=self.endpoints['page-by-tag'], params=params)
+        params = build_params(fields=fields, language_code=language_code,
+                              draft_token=draft_token)
+        return self.get(
+            url=self.endpoints['page-by-tag'].format(slug=slug),
+            params=params)
 
     def lookup_by_slug(
         self,
