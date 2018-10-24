@@ -126,26 +126,24 @@ def test_cms_client_lookup_by_full_path(default_client):
 
 def test_cms_client_lookup_by_tag_draft(default_client):
     with requests_mock.mock() as mock:
-        mock.get('http://example.com/api/pages/lookup-by-tag/')
+        mock.get('http://example.com/api/pages/lookup-by-tag/thing/')
         default_client.lookup_by_tag('thing', draft_token='draft-token')
         request = mock.request_history[0]
 
         assert request.qs == {
             'fields': ['*'],
             'draft_token': ['draft-token'],
-            'tag_slug': ['thing']
         }
 
 
 def test_cms_client_lookup_by_tag(default_client):
     with requests_mock.mock() as mock:
-        mock.get('http://example.com/api/pages/lookup-by-tag/')
+        mock.get('http://example.com/api/pages/lookup-by-tag/thing/')
         default_client.lookup_by_tag('thing')
         request = mock.request_history[0]
 
         assert request.qs == {
             'fields': ['*'],
-            'tag_slug': ['thing']
         }
 
 
