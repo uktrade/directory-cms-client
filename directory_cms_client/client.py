@@ -28,7 +28,7 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
         'ping': 'healthcheck/ping/',
         'page-by-type': '/api/pages/lookup-by-type/{page_type}/',
         'page-by-slug': '/api/pages/lookup-by-slug/{slug}/',
-        'page-by-tag': '/api/pages/lookup-by-tag/{slug}',
+        'page-by-tag': '/api/pages/lookup-by-tag/{slug}/',
         'page-by-full-path': '/api/pages/lookup-by-full-path/',
         'pages-by-type': '/api/pages/'
     }
