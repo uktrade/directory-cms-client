@@ -21,7 +21,7 @@ def default_client():
         api_key='debug',
         sender_id='test-sender',
         timeout=5,
-        service_name='foo'
+        default_service_name='foo'
     )
 
 
@@ -95,7 +95,8 @@ def test_cms_client_lookup_by_full_path_language(default_client):
         assert request.qs == {
             'lang': ['de'],
             'fields': ['*'],
-            'full_path': ['thing']
+            'full_path': ['thing'],
+            'service_name': ['foo'],
         }
 
 
@@ -108,7 +109,8 @@ def test_cms_client_lookup_by_full_path_draft(default_client):
         assert request.qs == {
             'draft_token': ['draft-token'],
             'fields': ['*'],
-            'full_path': ['thing']
+            'full_path': ['thing'],
+            'service_name': ['foo'],
         }
 
 
@@ -120,7 +122,22 @@ def test_cms_client_lookup_by_full_path(default_client):
 
         assert request.qs == {
             'fields': ['*'],
-            'full_path': ['thing']
+            'full_path': ['thing'],
+            'service_name': ['foo'],
+        }
+
+
+def test_cms_client_lookup_by_full_path_service_name(default_client):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/lookup-by-full-path/')
+        default_client.lookup_by_full_path(
+            'thing', service_name='test-service')
+        request = mock.request_history[0]
+
+        assert request.qs == {
+            'fields': ['*'],
+            'full_path': ['thing'],
+            'service_name': ['test-service'],
         }
 
 
@@ -133,6 +150,7 @@ def test_cms_client_lookup_by_tag_draft(default_client):
         assert request.qs == {
             'fields': ['*'],
             'draft_token': ['draft-token'],
+            'service_name': ['foo'],
         }
 
 
@@ -144,6 +162,20 @@ def test_cms_client_lookup_by_tag(default_client):
 
         assert request.qs == {
             'fields': ['*'],
+            'service_name': ['foo'],
+        }
+
+
+def test_cms_client_lookup_by_tag_service_name(default_client):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/lookup-by-tag/thing/')
+        default_client.lookup_by_tag(
+            'thing', service_name='test-service')
+        request = mock.request_history[0]
+
+        assert request.qs == {
+            'fields': ['*'],
+            'service_name': ['test-service'],
         }
 
 
