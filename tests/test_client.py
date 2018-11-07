@@ -203,6 +203,36 @@ def test_good_response_cached(default_client, cms_cache):
     assert cms_cache.get(cache_key) == expected_data
 
 
+def test_good_response_etag(default_client, cms_cache):
+    expected_data = bytes(json.dumps({'key': 'value'}), 'utf8')
+    path = '/api/pages/lookup-by-slug/thing/'
+
+    url = 'http://example.com' + path
+    headers = {'ETag': '"123"'}
+
+    # given the page has been cached
+    with requests_mock.mock() as mock:
+        mock.get(url, content=expected_data, headers=headers)
+        default_client.lookup_by_slug('thing')
+
+    cache_key = path + '?fields=%5B%27%2A%27%5D&service_name=foo'
+    assert cms_cache.get(cache_key) == expected_data
+    # and the etag has been saved
+    assert cms_cache.get('etag-' + cache_key) == '"123"'
+
+    # when the same page is requested and the remote server returns 304
+    with requests_mock.mock() as mock:
+        mock.get(url, content=b'', headers=headers, status_code=304)
+        response = default_client.lookup_by_slug('thing')
+        request = mock.request_history[0]
+
+    # then the request exposed the etag cache headers
+    assert request.headers['If-None-Match'] == '"123"'
+
+    # and the cached content is returned
+    assert isinstance(response, helpers.CMSCacheResponse)
+
+
 @freeze_time('2012-01-14')
 def test_good_response_cache_timeout(default_client, cms_cache, settings):
     settings.DIRECTORY_CMS_API_CLIENT_CACHE_EXPIRE_SECONDS = 100

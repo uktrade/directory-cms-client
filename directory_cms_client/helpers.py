@@ -4,6 +4,8 @@ import json
 import logging
 from urllib.parse import urlencode
 
+from directory_client_core.cache_control import ETagCacheControl
+
 from django.conf import settings
 from django.shortcuts import Http404
 
@@ -66,13 +68,24 @@ def fallback(cache):
         if content:
             return CMSCacheResponse(content=content, status_code=200)
 
+    def get_cache_control(etag_cache_key):
+        etag = cache.get(etag_cache_key)
+        if etag:
+            return ETagCacheControl(etag)
+
     def closure(func):
         @wraps(func)
         def wrapper(client, url, params={}, *args, **kwargs):
             cache_key = canonicalize_url(url + '?' + urlencode(params))
+            etag_cache_key = 'etag-' + cache_key
             try:
                 cms_response = func(
-                    client, url=url, params=params, *args, **kwargs
+                    client,
+                    url=url,
+                    params=params,
+                    cache_control=get_cache_control(etag_cache_key),
+                    *args,
+                    **kwargs,
                 )
             except RequestException:
                 # Failed to create the request e.g., the CMS is down, perhaps a
@@ -89,6 +102,8 @@ def fallback(cache):
                 if cms_response.status_code == 404:
                     logger.error(MESSAGE_NOT_FOUND, extra=log_context)
                     return CMSLiveResponse.from_response(cms_response)
+                elif cms_response.status_code == 304:
+                    response = get_cache_response(cache_key)
                 elif not cms_response.ok:
                     # Successfully requested the content, but the response is
                     # not OK (e.g., 500, 403, etc)
@@ -101,11 +116,10 @@ def fallback(cache):
                             cms_response
                         )
                 else:
-                    cache.set(
-                        cache_key,
-                        cms_response.content,
-                        settings.DIRECTORY_CMS_API_CLIENT_CACHE_EXPIRE_SECONDS
-                    )
+                    cache.set_many({
+                        cache_key: cms_response.content,
+                        etag_cache_key: cms_response.headers.get('ETag'),
+                    }, settings.DIRECTORY_CMS_API_CLIENT_CACHE_EXPIRE_SECONDS)
                     response = CMSLiveResponse.from_response(cms_response)
             return response
         return wrapper
