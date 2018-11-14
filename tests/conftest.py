@@ -7,7 +7,7 @@ def pytest_configure():
         DIRECTORY_CMS_API_CLIENT_SENDER_ID='test-sender',
         DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT=5,
         DIRECTORY_CMS_API_CLIENT_SERVICE_NAME='foo',
-        DIRECTORY_CMS_API_CLIENT_CACHE_EXPIRE_SECONDS=10,
+        DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS=10,
         CACHES={
             'cms_fallback': {
                 'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',

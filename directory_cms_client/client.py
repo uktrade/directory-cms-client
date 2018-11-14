@@ -1,10 +1,10 @@
-import directory_client_core.base
+from directory_client_core.base import AbstractAPIClient
+from directory_client_core.helpers import fallback
 
 from django.conf import settings
 from django.core.cache import caches
 
 from directory_cms_client.version import __version__
-from directory_cms_client import helpers
 
 
 def build_params(
@@ -23,7 +23,7 @@ def build_params(
     return params
 
 
-class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
+class DirectoryCMSClient(AbstractAPIClient):
     endpoints = {
         'ping': 'healthcheck/ping/',
         'page-by-type': '/api/pages/lookup-by-type/{page_type}/',
@@ -43,7 +43,7 @@ class DirectoryCMSClient(directory_client_core.base.AbstractAPIClient):
     def ping(self):
         return self.get(url=self.endpoints['ping'])
 
-    @helpers.fallback(cache=caches['cms_fallback'])
+    @fallback(cache=caches['cms_fallback'])
     def get(self, *args, **kwargs):
         return super().get(*args, **kwargs)
 
