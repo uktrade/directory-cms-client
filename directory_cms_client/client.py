@@ -11,7 +11,8 @@ def build_params(
         full_path=None,
         language_code=None,
         draft_token=None,
-        fields=None
+        fields=None,
+        region=None,
 ):
     params = {'fields': fields or ['*']}
     if language_code:
@@ -20,6 +21,8 @@ def build_params(
         params['draft_token'] = draft_token
     if full_path:
         params['full_path'] = full_path
+    if region:
+        params['region'] = region
     return params
 
 
@@ -72,10 +75,11 @@ class DirectoryCMSClient(AbstractAPIClient):
         draft_token=None,
         language_code=None,
         service_name=None,
+        region=None,
     ):
         base_params = build_params(
             fields=fields, language_code=language_code,
-            draft_token=draft_token)
+            draft_token=draft_token, region=region)
 
         return self.get(
             url=self.endpoints['page-by-slug'].format(slug=slug),

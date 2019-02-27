@@ -79,6 +79,19 @@ def test_cms_client_lookup_by_slug(default_client):
         }
 
 
+def test_cms_client_lookup_by_slug_region(default_client):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/lookup-by-slug/thing/')
+        default_client.lookup_by_slug('thing', region='eu')
+        request = mock.request_history[0]
+
+        assert request.qs == {
+            'service_name': ['foo'],
+            'region': ['eu'],
+            'fields': ['*'],
+        }
+
+
 def test_cms_client_lookup_by_full_path_language(default_client):
     with requests_mock.mock() as mock:
         mock.get('http://example.com/api/pages/lookup-by-full-path/')
