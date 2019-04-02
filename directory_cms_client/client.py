@@ -27,8 +27,6 @@ def build_params(
         params['region'] = region
     if url:
         params['url'] = url
-    if site_id:
-        params['site_id'] = site_id
     return params
 
 
@@ -124,12 +122,11 @@ class DirectoryCMSClient(AbstractAPIClient):
     ):
         base_params = build_params(
             url=url,
-            site_id=site_id,
             fields=fields,
             draft_token=draft_token,
         )
         return self.get(
-            url=self.endpoints['page-by-url'],
+            url=self.endpoints['page-by-url'].format(site_id=site_id),
             params=base_params,
         )
 
