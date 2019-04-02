@@ -13,6 +13,8 @@ def build_params(
         draft_token=None,
         fields=None,
         region=None,
+        url=None,
+        site_id=None,
 ):
     params = {'fields': fields or ['*']}
     if language_code:
@@ -23,6 +25,10 @@ def build_params(
         params['full_path'] = full_path
     if region:
         params['region'] = region
+    if url:
+        params['url'] = url
+    if site_id:
+        params['site_id'] = site_id
     return params
 
 
@@ -33,6 +39,7 @@ class DirectoryCMSClient(AbstractAPIClient):
         'page-by-slug': '/api/pages/lookup-by-slug/{slug}/',
         'page-by-tag': '/api/pages/lookup-by-tag/{slug}/',
         'page-by-full-path': '/api/pages/lookup-by-full-path/',
+        'page-by-url': '/api/pages/lookup-by-url/{site_id}/',
         'pages-by-type': '/api/pages/'
     }
     version = __version__
@@ -106,6 +113,24 @@ class DirectoryCMSClient(AbstractAPIClient):
                 **base_params,
                 'service_name': service_name or self.default_service_name,
             },
+        )
+
+    def lookup_by_url(
+        self,
+        url,
+        site_id,
+        fields=None,
+        draft_token=None,
+    ):
+        base_params = build_params(
+            url=url,
+            site_id=site_id,
+            fields=fields,
+            draft_token=draft_token,
+        )
+        return self.get(
+            url=self.endpoints['page-by-url'],
+            params=base_params,
         )
 
     def list_by_page_type(
