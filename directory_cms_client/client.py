@@ -36,8 +36,8 @@ class DirectoryCMSClient(AbstractAPIClient):
         'page-by-type': '/api/pages/lookup-by-type/{page_type}/',
         'page-by-slug': '/api/pages/lookup-by-slug/{slug}/',
         'page-by-tag': '/api/pages/lookup-by-tag/{slug}/',
+        'page-by-path': '/api/pages/lookup-by-path/{site_id}/{path}',
         'page-by-full-path': '/api/pages/lookup-by-full-path/',
-        'page-by-url': '/api/pages/lookup-by-url/{site_id}/',
         'pages-by-type': '/api/pages/'
     }
     version = __version__
@@ -113,20 +113,19 @@ class DirectoryCMSClient(AbstractAPIClient):
             },
         )
 
-    def lookup_by_url(
+    def lookup_by_path(
         self,
-        url,
         site_id,
+        path,
         fields=None,
         draft_token=None,
     ):
         base_params = build_params(
-            url=url,
             fields=fields,
             draft_token=draft_token,
         )
         return self.get(
-            url=self.endpoints['page-by-url'].format(site_id=site_id),
+            url=self.endpoints['page-by-path'].format(site_id=site_id, path=path), # noqa
             params=base_params,
         )
 
