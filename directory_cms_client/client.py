@@ -13,8 +13,6 @@ def build_params(
         draft_token=None,
         fields=None,
         region=None,
-        url=None,
-        site_id=None,
 ):
     params = {'fields': fields or ['*']}
     if language_code:
@@ -25,8 +23,6 @@ def build_params(
         params['full_path'] = full_path
     if region:
         params['region'] = region
-    if url:
-        params['url'] = url
     return params
 
 
