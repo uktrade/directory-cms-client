@@ -120,11 +120,13 @@ class DirectoryCMSClient(AbstractAPIClient):
         fields=None,
         draft_token=None,
         language_code=None,
+        region=None,
     ):
         base_params = build_params(
             fields=fields,
             draft_token=draft_token,
             language_code=language_code,
+            region=region,
         )
         return self.get(
             url=self.endpoints['page-by-path'].format(site_id=site_id, path=path), # noqa
