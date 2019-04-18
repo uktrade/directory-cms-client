@@ -124,10 +124,8 @@ class DirectoryCMSClient(AbstractAPIClient):
             language_code=language_code,
             region=region,
         )
-        return self.get(
-            url=self.endpoints['page-by-path'].format(site_id=site_id, path=path), # noqa
-            params=base_params,
-        )
+        url = self.endpoints['page-by-path'].format(site_id=site_id, path=path)
+        return self.get(url=url, params=base_params)
 
     def list_by_page_type(
         self,
