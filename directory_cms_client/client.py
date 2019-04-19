@@ -8,7 +8,6 @@ from directory_cms_client.version import __version__
 
 
 def build_params(
-        full_path=None,
         language_code=None,
         draft_token=None,
         fields=None,
@@ -19,8 +18,6 @@ def build_params(
         params['lang'] = language_code
     if draft_token:
         params['draft_token'] = draft_token
-    if full_path:
-        params['full_path'] = full_path
     if region:
         params['region'] = region
     return params
@@ -33,7 +30,6 @@ class DirectoryCMSClient(AbstractAPIClient):
         'page-by-slug': '/api/pages/lookup-by-slug/{slug}/',
         'page-by-tag': '/api/pages/lookup-by-tag/{slug}/',
         'page-by-path': '/api/pages/lookup-by-path/{site_id}/{path}',
-        'page-by-full-path': '/api/pages/lookup-by-full-path/',
         'pages-by-type': '/api/pages/'
     }
     version = __version__
@@ -84,25 +80,6 @@ class DirectoryCMSClient(AbstractAPIClient):
 
         return self.get(
             url=self.endpoints['page-by-slug'].format(slug=slug),
-            params={
-                **base_params,
-                'service_name': service_name or self.default_service_name,
-            },
-        )
-
-    def lookup_by_full_path(
-        self,
-        full_path,
-        fields=None,
-        draft_token=None,
-        language_code=None,
-        service_name=None,
-    ):
-        base_params = build_params(
-            fields=fields, language_code=language_code,
-            draft_token=draft_token, full_path=full_path)
-        return self.get(
-            url=self.endpoints['page-by-full-path'],
             params={
                 **base_params,
                 'service_name': service_name or self.default_service_name,
