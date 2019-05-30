@@ -1,23 +1,12 @@
 """
 Directory CMS client
 """
-import ast
-import re
 from setuptools import setup, find_packages
-
-
-def get_version():
-    pattern = re.compile(r'__version__\s+=\s+(.*)')
-
-    with open('directory_cms_client/version.py', 'rb') as src:
-        return str(ast.literal_eval(
-            pattern.search(src.read().decode('utf-8')).group(1)
-        ))
 
 
 setup(
     name='directory_cms_client',
-    version=get_version(),
+    version='10.0.1',
     url='https://github.com/uktrade/directory-cms-client',
     license='MIT',
     author='Department for International Trade',
@@ -27,13 +16,12 @@ setup(
     long_description_content_type='text/markdown',
     include_package_data=True,
     install_requires=[
-        'directory_client_core>=5.0.0,<6.0.0',
+        'directory_client_core>=5.1.0,<6.0.0',
     ],
     extras_require={
         'test': [
             'pytest==3.0.2',
             'pytest-cov==2.3.1',
-            'pytest-catchlog==1.2.2',
             'pytest-sugar==0.8.0',
             'flake8==3.0.4',
             'requests_mock==1.1.0',
