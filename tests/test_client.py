@@ -1,10 +1,11 @@
+import pkg_resources
+
 import pytest
 import requests_mock
 
 from django.core.cache import caches
 
 from directory_cms_client import DirectoryCMSClient
-from directory_cms_client.version import __version__
 
 
 @pytest.fixture
@@ -188,7 +189,8 @@ def test_sender_id(default_client):
 
 
 def test_version():
-    assert DirectoryCMSClient.version == __version__
+    expected = pkg_resources.get_distribution('directory-cms-client').version
+    assert DirectoryCMSClient.version == expected
 
 
 def test_ping(default_client):
