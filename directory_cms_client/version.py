@@ -1,1 +1,3 @@
-__version__ = '10.0.0'
+import pkg_resources
+
+__version__ = pkg_resources.get_distribution('directory-cms-client').version
