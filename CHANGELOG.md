@@ -1,5 +1,13 @@
 # Changelog
 
+## [10.1.0](https://pypi.org/project/directory-cms-client/10.0.1/) (2019-05-31)
+[Full Changelog](https://github.com/uktrade/directory-cms-client/pull/44/files)
+
+**Implemented enhancements:**
+
+- Added `limit` and `offset` optional params to `list_by_page_type` to allow for pagination
+
+
 ## [10.0.1](https://pypi.org/project/directory-cms-client/10.0.1/) (2019-05-30)
 [Full Changelog](https://github.com/uktrade/directory-cms-client/pull/44/files)
 
