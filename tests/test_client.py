@@ -197,3 +197,19 @@ def test_ping(default_client):
     with requests_mock.mock() as mock:
         mock.get('http://example.com/healthcheck/ping/')
         default_client.ping()
+
+
+def test_cms_client_list_by_page_type_with_offset_and_limit(default_client):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/')
+        default_client.list_by_page_type('thing', draft_token='draft-token',
+                                         limit=10, offset=1)
+        request = mock.request_history[0]
+
+        assert request.qs == {
+            'draft_token': ['draft-token'],
+            'fields': ['*'],
+            'type': ['thing'],
+            'limit': ['10'],
+            'offset': ['1']
+        }

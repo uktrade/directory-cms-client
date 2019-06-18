@@ -9,6 +9,7 @@ from django.core.cache import caches
 
 def build_params(
     language_code=None, draft_token=None, fields=None, region=None,
+        limit=None, offset=None
 ):
     params = {'fields': fields or ['*']}
     if language_code:
@@ -17,6 +18,10 @@ def build_params(
         params['draft_token'] = draft_token
     if region:
         params['region'] = region
+    if limit:
+        params['limit'] = limit
+    if offset:
+        params['offset'] = offset
     return params
 
 
@@ -116,10 +121,15 @@ class DirectoryCMSClient(AbstractAPIClient):
         page_type,
         fields=None,
         draft_token=None,
-        language_code=None
+        language_code=None,
+        limit=None,
+        offset=None
     ):
         base_params = build_params(
-            fields=fields, language_code=language_code, draft_token=draft_token
+            fields=fields, language_code=language_code,
+            draft_token=draft_token,
+            limit=limit,
+            offset=offset
         )
         return self.get(
             url=self.endpoints['pages-by-type'],
