@@ -210,6 +210,6 @@ def test_cms_client_list_by_page_type_with_offset_and_limit(default_client):
             'draft_token': ['draft-token'],
             'fields': ['*'],
             'type': ['thing'],
-            'limit': 10,
-            'offset': 1
+            'limit': ['10'],
+            'offset': ['1']
         }
