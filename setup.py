@@ -1,6 +1,3 @@
-"""
-Directory CMS client
-"""
 from setuptools import setup, find_packages
 
 
