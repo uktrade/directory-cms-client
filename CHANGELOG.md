@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.2.0](https://pypi.org/project/directory-cms-client/10.2.0/) (2019-08-20)
+[Full Changelog](https://github.com/uktrade/directory-cms-client/pull/48/files)
+
+**Implemented enhancements:**
+
+- Upgraded directory client core and test requirements
+
 ## [10.1.0](https://pypi.org/project/directory-cms-client/10.1.0/) (2019-06-18)
 [Full Changelog](https://github.com/uktrade/directory-cms-client/pull/46/files)
 
