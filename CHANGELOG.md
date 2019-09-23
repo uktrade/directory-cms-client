@@ -5,7 +5,7 @@
 
 **Implemented enhancements:**
 
-- Added `lookup_industries_by_tag` and `list_industry_tags` methods
+- Added `lookup-industries-by-tag` and `list-industry-tags` methods
 
 **Breaking changes:**
 
