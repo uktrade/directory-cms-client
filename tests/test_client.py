@@ -93,10 +93,10 @@ def test_cms_client_lookup_by_slug_region(default_client):
         }
 
 
-def test_cms_client_lookup_by_tag_draft(default_client):
+def test_cms_client_lookup_country_by_tag_draft(default_client):
     with requests_mock.mock() as mock:
-        mock.get('http://example.com/api/pages/lookup-by-tag/thing/')
-        default_client.lookup_by_tag('thing', draft_token='draft-token')
+        mock.get('http://example.com/api/pages/lookup-countries-by-tag/thing/')
+        default_client.lookup_countries_by_tag('thing', draft_token='draft-token')
         request = mock.request_history[0]
 
         assert request.qs == {
@@ -106,10 +106,10 @@ def test_cms_client_lookup_by_tag_draft(default_client):
         }
 
 
-def test_cms_client_lookup_by_tag(default_client):
+def test_cms_client_lookup_country_by_tag(default_client):
     with requests_mock.mock() as mock:
-        mock.get('http://example.com/api/pages/lookup-by-tag/thing/')
-        default_client.lookup_by_tag('thing')
+        mock.get('http://example.com/api/pages/lookup-countries-by-tag/thing/')
+        default_client.lookup_countries_by_tag('thing')
         request = mock.request_history[0]
 
         assert request.qs == {
@@ -118,11 +118,10 @@ def test_cms_client_lookup_by_tag(default_client):
         }
 
 
-def test_cms_client_lookup_by_tag_service_name(default_client):
+def test_cms_client_lookup_country_by_tag_service_name(default_client):
     with requests_mock.mock() as mock:
-        mock.get('http://example.com/api/pages/lookup-by-tag/thing/')
-        default_client.lookup_by_tag(
-            'thing', service_name='test-service')
+        mock.get('http://example.com/api/pages/lookup-countries-by-tag/thing/')
+        default_client.lookup_countries_by_tag('thing', service_name='test-service')
         request = mock.request_history[0]
 
         assert request.qs == {
@@ -145,8 +144,7 @@ def test_cms_client_lookup_by_path(default_client):
 def test_cms_client_lookup_by_path_with_language(default_client):
     with requests_mock.mock() as mock:
         mock.get('http://example.com/api/pages/lookup-by-path/1/thing')
-        default_client.lookup_by_path(
-            site_id=1, path='thing', language_code='de')
+        default_client.lookup_by_path(site_id=1, path='thing', language_code='de')
         request = mock.request_history[0]
 
         assert request.qs == {
@@ -158,8 +156,7 @@ def test_cms_client_lookup_by_path_with_language(default_client):
 def test_cms_client_lookup_by_path_with_draft_token(default_client):
     with requests_mock.mock() as mock:
         mock.get('http://example.com/api/pages/lookup-by-path/1/thing')
-        default_client.lookup_by_path(
-            site_id=1, path='thing', draft_token='draft-token')
+        default_client.lookup_by_path(site_id=1, path='thing', draft_token='draft-token')
         request = mock.request_history[0]
 
         assert request.qs == {
@@ -202,14 +199,26 @@ def test_ping(default_client):
 def test_cms_client_list_by_page_type_with_offset_and_limit(default_client):
     with requests_mock.mock() as mock:
         mock.get('http://example.com/api/pages/')
-        default_client.list_by_page_type('thing', draft_token='draft-token',
-                                         limit=10, offset=1)
+        default_client.list_by_page_type('thing', draft_token='draft-token', limit=10, offset=1)
         request = mock.request_history[0]
 
         assert request.qs == {
             'draft_token': ['draft-token'],
             'fields': ['*'],
             'type': ['thing'],
+            'limit': ['10'],
+            'offset': ['1']
+        }
+
+
+def test_list_industry_tags(default_client):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/industry-tags/')
+        default_client.list_industry_tags(limit=10, offset=1)
+        request = mock.request_history[0]
+
+        assert request.qs == {
+            'fields': ['*'],
             'limit': ['10'],
             'offset': ['1']
         }
