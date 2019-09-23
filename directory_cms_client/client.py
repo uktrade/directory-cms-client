@@ -67,9 +67,7 @@ class DirectoryCMSClient(AbstractAPIClient):
         )
         return self.get(
             url=self.endpoints['industry-tags'],
-            params={
-                **base_params,
-            },
+            params=base_params,
             use_fallback_cache=True,
         )
 

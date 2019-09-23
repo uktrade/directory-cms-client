@@ -1,6 +1,6 @@
 # Changelog
 
-## [10.3.0](https://pypi.org/project/directory-cms-client/10.3.0/) (2019-09-23)
+## [11.0.0](https://pypi.org/project/directory-cms-client/11.0.0/) (2019-09-23)
 [Full Changelog](https://github.com/uktrade/directory-cms-client/pull/49/files)
 
 **Implemented enhancements:**
