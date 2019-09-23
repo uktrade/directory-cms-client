@@ -1,5 +1,16 @@
 # Changelog
 
+## [10.3.0](https://pypi.org/project/directory-cms-client/10.3.0/) (2019-09-23)
+[Full Changelog](https://github.com/uktrade/directory-cms-client/pull/49/files)
+
+**Implemented enhancements:**
+
+- Added `lookup_industries_by_tag` and `list_industry_tags` methods
+
+**Breaking changes:**
+
+- Removed `lookup-by-tag` method
+
 ## [10.2.0](https://pypi.org/project/directory-cms-client/10.2.0/) (2019-08-20)
 [Full Changelog](https://github.com/uktrade/directory-cms-client/pull/48/files)
 

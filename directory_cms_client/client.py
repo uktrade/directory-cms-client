@@ -30,9 +30,10 @@ class DirectoryCMSClient(AbstractAPIClient):
         'ping': '/healthcheck/ping/',
         'page-by-type': '/api/pages/lookup-by-type/{page_type}/',
         'page-by-slug': '/api/pages/lookup-by-slug/{slug}/',
-        'page-by-tag': '/api/pages/lookup-by-tag/{slug}/',
         'page-by-path': '/api/pages/lookup-by-path/{site_id}/{path}',
-        'pages-by-type': '/api/pages/'
+        'pages-by-type': '/api/pages/',
+        'industry-tags': '/api/pages/industry-tags/',
+        'countries-by-tag': '/api/pages/lookup-countries-by-tag/{tag_id}/'
     }
 
     version = pkg_resources.get_distribution(__package__).version
@@ -55,9 +56,26 @@ class DirectoryCMSClient(AbstractAPIClient):
     def ping(self):
         return self.get(url=self.endpoints['ping'])
 
-    def lookup_by_tag(
+    def list_industry_tags(
         self,
-        slug,
+        limit=None,
+        offset=None
+    ):
+        base_params = build_params(
+            limit=limit,
+            offset=offset
+        )
+        return self.get(
+            url=self.endpoints['industry-tags'],
+            params={
+                **base_params,
+            },
+            use_fallback_cache=True,
+        )
+
+    def lookup_countries_by_tag(
+        self,
+        tag_id,
         fields=None,
         draft_token=None,
         language_code=None,
@@ -67,7 +85,7 @@ class DirectoryCMSClient(AbstractAPIClient):
             fields=fields, language_code=language_code, draft_token=draft_token
         )
         return self.get(
-            url=self.endpoints['page-by-tag'].format(slug=slug),
+            url=self.endpoints['countries-by-tag'].format(tag_id=tag_id),
             params={
                 **base_params,
                 'service_name': service_name or self.default_service_name,
