@@ -222,3 +222,21 @@ def test_list_industry_tags(default_client):
             'limit': ['10'],
             'offset': ['1']
         }
+
+
+def test_list_regions(default_client):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/regions/')
+        default_client.list_regions()
+        request = mock.request_history[0]
+
+        assert request.qs == {}
+
+
+def test_lookup_country_guides(default_client):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/lookup-countries/')
+        default_client.lookup_country_guides(industry='test', region='bar,foo')
+        request = mock.request_history[0]
+
+        assert request.qs == {'fields': ['*'], 'industry': ['test'], 'region': ['bar,foo']}

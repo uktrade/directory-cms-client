@@ -1,15 +1,23 @@
 # Changelog
 
+## [11.1.0](https://pypi.org/project/directory-cms-client/11.0.0/) (2019-12-03)
+[Full Changelog](https://github.com/uktrade/directory-cms-client/pull/50/files)
+
+**Implemented enhancements:**
+
+- Added `lookup_country_guides` and `list_regions` methods
+
+
 ## [11.0.0](https://pypi.org/project/directory-cms-client/11.0.0/) (2019-09-23)
 [Full Changelog](https://github.com/uktrade/directory-cms-client/pull/49/files)
 
 **Implemented enhancements:**
 
-- Added `lookup-industries-by-tag` and `list-industry-tags` methods
+- Added `lookup_industries_by_tag` and `list_industry_tags` methods
 
 **Breaking changes:**
 
-- Removed `lookup-by-tag` method
+- Removed `lookup_by_tag` method
 
 ## [10.2.0](https://pypi.org/project/directory-cms-client/10.2.0/) (2019-08-20)
 [Full Changelog](https://github.com/uktrade/directory-cms-client/pull/48/files)
