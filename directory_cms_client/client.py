@@ -7,10 +7,8 @@ from django.conf import settings
 from django.core.cache import caches
 
 
-def build_params(
-    language_code=None, draft_token=None, fields=None, region=None,
-        limit=None, offset=None
-):
+def build_params(language_code=None, draft_token=None, fields=None, region=None, industry=None, limit=None,
+                 offset=None):
     params = {'fields': fields or ['*']}
     if language_code:
         params['lang'] = language_code
@@ -18,6 +16,8 @@ def build_params(
         params['draft_token'] = draft_token
     if region:
         params['region'] = region
+    if industry:
+        params['industry'] = industry
     if limit:
         params['limit'] = limit
     if offset:
@@ -33,7 +33,9 @@ class DirectoryCMSClient(AbstractAPIClient):
         'page-by-path': '/api/pages/lookup-by-path/{site_id}/{path}',
         'pages-by-type': '/api/pages/',
         'industry-tags': '/api/pages/industry-tags/',
-        'countries-by-tag': '/api/pages/lookup-countries-by-tag/{tag_id}/'
+        'countries-by-tag': '/api/pages/lookup-countries-by-tag/{tag_id}/',
+        'regions': '/api/regions/',
+        'country-guides': '/api/pages/lookup-countries/'
     }
 
     version = pkg_resources.get_distribution(__package__).version
@@ -155,6 +157,13 @@ class DirectoryCMSClient(AbstractAPIClient):
             },
             use_fallback_cache=True,
         )
+
+    def list_regions(self):
+        return self.get(url=self.endpoints['regions'], use_fallback_cache=True)
+
+    def lookup_country_guides(self, industry=None, region=None):
+        base_params = build_params(industry=industry, region=region)
+        return self.get(url=self.endpoints['country-guides'], params=base_params, use_fallback_cache=True)
 
 
 cms_api_client = DirectoryCMSClient(
