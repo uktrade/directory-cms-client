@@ -55,13 +55,14 @@ class DirectoryCMSClient(AbstractAPIClient):
             return self.fallback_cache_get(*args, **kwargs)
         return super().get(*args, **kwargs)
 
-    def ping(self):
-        return self.get(url=self.endpoints['ping'])
+    def ping(self, authenticator=None):
+        return self.get(url=self.endpoints['ping'], authenticator=authenticator)
 
     def list_industry_tags(
         self,
         limit=None,
-        offset=None
+        offset=None,
+        authenticator=None,
     ):
         base_params = build_params(
             limit=limit,
@@ -71,6 +72,7 @@ class DirectoryCMSClient(AbstractAPIClient):
             url=self.endpoints['industry-tags'],
             params=base_params,
             use_fallback_cache=True,
+            authenticator=authenticator,
         )
 
     def lookup_countries_by_tag(
@@ -80,6 +82,7 @@ class DirectoryCMSClient(AbstractAPIClient):
         draft_token=None,
         language_code=None,
         service_name=None,
+        authenticator=None,
     ):
         base_params = build_params(
             fields=fields, language_code=language_code, draft_token=draft_token
@@ -91,6 +94,7 @@ class DirectoryCMSClient(AbstractAPIClient):
                 'service_name': service_name or self.default_service_name,
             },
             use_fallback_cache=True,
+            authenticator=authenticator,
         )
 
     def lookup_by_slug(
@@ -101,10 +105,13 @@ class DirectoryCMSClient(AbstractAPIClient):
         language_code=None,
         service_name=None,
         region=None,
+        authenticator=None,
     ):
         base_params = build_params(
-            fields=fields, language_code=language_code,
-            draft_token=draft_token, region=region
+            fields=fields,
+            language_code=language_code,
+            draft_token=draft_token,
+            region=region,
         )
 
         return self.get(
@@ -114,6 +121,7 @@ class DirectoryCMSClient(AbstractAPIClient):
                 'service_name': service_name or self.default_service_name,
             },
             use_fallback_cache=True,
+            authenticator=authenticator,
         )
 
     def lookup_by_path(
@@ -124,6 +132,7 @@ class DirectoryCMSClient(AbstractAPIClient):
         draft_token=None,
         language_code=None,
         region=None,
+        authenticator=None,
     ):
         base_params = build_params(
             fields=fields,
@@ -132,7 +141,12 @@ class DirectoryCMSClient(AbstractAPIClient):
             region=region,
         )
         url = self.endpoints['page-by-path'].format(site_id=site_id, path=path)
-        return self.get(url=url, params=base_params, use_fallback_cache=True)
+        return self.get(
+            url=url,
+            params=base_params,
+            use_fallback_cache=True,
+            authenticator=authenticator,
+        )
 
     def list_by_page_type(
         self,
@@ -141,7 +155,8 @@ class DirectoryCMSClient(AbstractAPIClient):
         draft_token=None,
         language_code=None,
         limit=None,
-        offset=None
+        offset=None,
+        authenticator=None,
     ):
         base_params = build_params(
             fields=fields, language_code=language_code,
@@ -156,14 +171,24 @@ class DirectoryCMSClient(AbstractAPIClient):
                 'type': page_type,
             },
             use_fallback_cache=True,
+            authenticator=authenticator,
         )
 
-    def list_regions(self):
-        return self.get(url=self.endpoints['regions'], use_fallback_cache=True)
+    def list_regions(self, authenticator=None):
+        return self.get(
+            url=self.endpoints['regions'],
+            use_fallback_cache=True,
+            authenticator=authenticator,
+        )
 
-    def lookup_country_guides(self, industry=None, region=None):
+    def lookup_country_guides(self, industry=None, region=None, authenticator=None):
         base_params = build_params(industry=industry, region=region)
-        return self.get(url=self.endpoints['country-guides'], params=base_params, use_fallback_cache=True)
+        return self.get(
+            url=self.endpoints['country-guides'],
+            params=base_params,
+            use_fallback_cache=True,
+            authenticator=authenticator,
+        )
 
 
 cms_api_client = DirectoryCMSClient(
