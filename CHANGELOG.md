@@ -1,5 +1,13 @@
 # Changelog
 
+## [11.1.1](https://pypi.org/project/directory-cms-client/11.1.1/) (2020-02-18)
+[Full Changelog](https://github.com/uktrade/directory-cms-client/pull/51/files)
+
+**Implemented enhancements:**
+
+- TT-2288 Added support for custom authenticators
+
+
 ## [11.1.0](https://pypi.org/project/directory-cms-client/11.0.0/) (2019-12-03)
 [Full Changelog](https://github.com/uktrade/directory-cms-client/pull/50/files)
 
