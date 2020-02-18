@@ -1,3 +1,4 @@
+import base64
 import pkg_resources
 
 import pytest
@@ -27,6 +28,18 @@ def cms_cache():
 @pytest.fixture(autouse=True)
 def clear_cms_cache(cms_cache):
     cms_cache.clear()
+
+
+class BasicAuthenticator:
+    def __init__(self, username: str, password: str):
+        credentials = f"{username}:{password}"
+        encoded_credentials = base64.b64encode(credentials.encode("ascii"))
+        self.headers = {"Authorization": f"Basic {encoded_credentials.decode('ascii')}"}
+
+
+@pytest.fixture
+def basic_authenticator():
+    return BasicAuthenticator("user", "password")
 
 
 def test_cms_client_list_by_page_type_draft(default_client):
@@ -240,3 +253,81 @@ def test_lookup_country_guides(default_client):
         request = mock.request_history[0]
 
         assert request.qs == {'fields': ['*'], 'industry': ['test'], 'region': ['bar,foo']}
+
+
+def test_ping_with_authenticator(default_client, basic_authenticator):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/healthcheck/ping/')
+        default_client.ping(authenticator=basic_authenticator)
+
+        assert mock.last_request.headers['Authorization'].startswith('Basic ')
+
+
+def test_list_industry_tags_with_authenticator(default_client, basic_authenticator):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/industry-tags/')
+        default_client.list_industry_tags(
+            limit=10, offset=1, authenticator=basic_authenticator
+        )
+
+        assert mock.last_request.headers['Authorization'].startswith('Basic ')
+
+
+def test_cms_client_lookup_country_by_tag_with_authenticator(
+        default_client, basic_authenticator
+):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/lookup-countries-by-tag/thing/')
+        default_client.lookup_countries_by_tag(
+            'thing', authenticator=basic_authenticator
+        )
+
+        assert mock.last_request.headers['Authorization'].startswith('Basic ')
+
+
+def test_cms_client_lookup_by_slug_with_authenticator(
+        default_client, basic_authenticator
+):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/lookup-by-slug/thing/')
+        default_client.lookup_by_slug('thing', authenticator=basic_authenticator)
+
+        assert mock.last_request.headers['Authorization'].startswith('Basic ')
+
+
+def test_cms_client_lookup_by_path_with_authenticator(
+        default_client, basic_authenticator
+):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/lookup-by-path/1/thing')
+        default_client.lookup_by_path(
+            site_id=1, path='thing', authenticator=basic_authenticator
+        )
+        assert mock.last_request.headers['Authorization'].startswith('Basic ')
+
+
+def test_cms_client_list_by_page_type_draft_with_authenticator(
+        default_client, basic_authenticator
+):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/')
+        default_client.list_by_page_type(
+            'thing', draft_token='draft-token', authenticator=basic_authenticator
+        )
+        assert mock.last_request.headers['Authorization'].startswith('Basic ')
+
+
+def test_list_regions_with_authenticator(default_client, basic_authenticator):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/regions/')
+        default_client.list_regions(authenticator=basic_authenticator)
+        assert mock.last_request.headers['Authorization'].startswith('Basic ')
+
+
+def test_lookup_country_guides_with_authenticator(default_client, basic_authenticator):
+    with requests_mock.mock() as mock:
+        mock.get('http://example.com/api/pages/lookup-countries/')
+        default_client.lookup_country_guides(
+            industry='test', region='bar,foo', authenticator=basic_authenticator
+        )
+        assert mock.last_request.headers['Authorization'].startswith('Basic ')
