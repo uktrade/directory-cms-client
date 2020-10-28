@@ -43,7 +43,7 @@ CACHES = {
 Once that is done the API client can be used:
 
 ```py
-from directory_api_client.client import cms_api_client
+from directory_cms_client.client import cms_api_client
 ```
 
 ## Development
