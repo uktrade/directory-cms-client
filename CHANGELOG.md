@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.0.0](https://pypi.org/project/directory-cms-client/12.0.0/) (2022-09-07)
+[Full Changelog](https://github.com/uktrade/directory-cms-client/pull/53/files)
+
+**Implemented enhancements:**
+
+- GLS-393 - Upgrade to be compatable with Django 3.2
+
 ## [11.1.1](https://pypi.org/project/directory-cms-client/11.1.1/) (2020-02-18)
 [Full Changelog](https://github.com/uktrade/directory-cms-client/pull/51/files)
 
@@ -74,4 +81,3 @@
 **Breaking changes:**
 
 - Removed lookup_by_full_path
-
