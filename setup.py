@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="directory_cms_client",
-    version="12.0.0",
+    version="12.0.1",
     url="https://github.com/uktrade/directory-cms-client",
     license="MIT",
     author="Department for International Trade",
@@ -16,13 +16,14 @@ setup(
     ],
     extras_require={
         "test": [
-            "codecov==2.1.9",
             "flake8==5.0.4",
             "freezegun==1.0.0",
-            "pytest-cov==2.10.1",
             "pytest-django>=3.8.0,<=4.1.0",
             "pytest-sugar>=0.9.2,<1.0.0",
             "pytest==5.4.0",
+            "pytest-codecov",
+            "pytest-cov",
+            "GitPython",
             "requests_mock==1.8.0",
             "setuptools>=45.2.0,<50.0.0",
             "twine>=3.1.1,<4.0.0",
