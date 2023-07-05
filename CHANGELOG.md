@@ -1,7 +1,7 @@
 # Changelog
 
 ## [12.0.1](https://pypi.org/project/directory-cms-client/12.0.1/) (2023-07-05)
-[Full Changelog]()
+[Full Changelog](https://github.com/uktrade/directory-cms-client/pull/58)
 
 **Implemented enhancements:**
 
