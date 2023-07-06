@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.0.2](https://pypi.org/project/directory-cms-client/12.0.2/) (2023-07-06)
+[Full Changelog](https://github.com/uktrade/directory-cms-client/pull/59)
+
+**Implemented enhancements:**
+
+- KLS-822 Use at least 7.2.5 of directory-client-core
+
 ## [12.0.1](https://pypi.org/project/directory-cms-client/12.0.1/) (2023-07-05)
 [Full Changelog](https://github.com/uktrade/directory-cms-client/pull/58)
 
