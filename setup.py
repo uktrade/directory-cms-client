@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="directory_cms_client",
-    version="12.3.3",
+    version="12.3.4",
     url="https://github.com/uktrade/directory-cms-client",
     license="MIT",
     author="Department for International Trade",
