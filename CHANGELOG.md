@@ -1,5 +1,12 @@
 # Changelog
 
+## [12.3.4](https://pypi.org/project/directory-cms-client/12.3.4/) (2024-02-27)
+[Full Changelog](https://github.com/uktrade/directory-cms-client/pull/61)
+
+**Implemented enhancements:**
+
+- POLS-94 Add codeowners file
+
 ## [12.0.2](https://pypi.org/project/directory-cms-client/12.0.2/) (2023-07-06)
 [Full Changelog](https://github.com/uktrade/directory-cms-client/pull/59)
 
